@@ -17,12 +17,12 @@ Usabilidade (Usability): Foca na facilidade de uso. Um sistema com boa usabilida
 
 4) <br>
 Um trade-off ocorre quando a melhoria de um requisito prejudica diretamente outro. É a arte da negociação técnica.
-Cenário A: Segurança vs. Usabilidade <br>
+Cenário A: Segurança vs. Usabilidade 
 Para tornar um aplicativo bancário extremamente seguro, você poderia exigir biometria, uma senha de 12 dígitos e um token enviado por SMS a cada clique.
 O conflito: Enquanto a Segurança atinge o nível máximo, a Usabilidade cai drasticamente, pois o usuário demora muito para realizar tarefas simples, tornando a experiência frustrante.
-Cenário B: Desempenho vs. Custo <br>
+Cenário B: Desempenho vs. Custo 
 Uma empresa quer que seu site de e-commerce carregue instantaneamente (em milissegundos) para milhares de usuários simultâneos.
 O conflito: Para obter esse Desempenho, é necessário investir em servidores de altíssima performance e infraestrutura de ponta. O trade-off aqui é o Custo, que sobe consideravelmente para manter essa velocidade.
-Cenário C: Portabilidade vs. Desempenho <br>
+Cenário C: Portabilidade vs. Desempenho 
 Um desenvolvedor decide criar um jogo usando uma tecnologia que permite rodar o mesmo código no Windows, Android, iOS e Web.
 O conflito: Ao focar na Portabilidade (rodar em qualquer lugar), perde-se em Desempenho. O código não é otimizado especificamente para o hardware de cada aparelho, resultando em uma execução mais lenta do que se fosse feito um código nativo para cada plataforma.
