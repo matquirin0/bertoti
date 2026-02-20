@@ -16,13 +16,13 @@ Escalabilidade (Scalability): É a capacidade do sistema de "crescer" para supor
 Usabilidade (Usability): Foca na facilidade de uso. Um sistema com boa usabilidade permite que o usuário aprenda a operá-lo rapidamente e cometa poucos erros durante a navegação.
 
 4) <br>
-Um trade-off ocorre quando a melhoria de um requisito prejudica diretamente outro. É a arte da negociação técnica.
+Um trade-off ocorre quando a melhoria de um requisito prejudica diretamente outro. É a arte da negociação técnica. <br>
 Cenário A: Segurança vs. Usabilidade 
 Para tornar um aplicativo bancário extremamente seguro, você poderia exigir biometria, uma senha de 12 dígitos e um token enviado por SMS a cada clique.
-O conflito: Enquanto a Segurança atinge o nível máximo, a Usabilidade cai drasticamente, pois o usuário demora muito para realizar tarefas simples, tornando a experiência frustrante.
+O conflito: Enquanto a Segurança atinge o nível máximo, a Usabilidade cai drasticamente, pois o usuário demora muito para realizar tarefas simples, tornando a experiência frustrante. <br>
 Cenário B: Desempenho vs. Custo 
 Uma empresa quer que seu site de e-commerce carregue instantaneamente (em milissegundos) para milhares de usuários simultâneos.
-O conflito: Para obter esse Desempenho, é necessário investir em servidores de altíssima performance e infraestrutura de ponta. O trade-off aqui é o Custo, que sobe consideravelmente para manter essa velocidade.
+O conflito: Para obter esse Desempenho, é necessário investir em servidores de altíssima performance e infraestrutura de ponta. O trade-off aqui é o Custo, que sobe consideravelmente para manter essa velocidade. <br>
 Cenário C: Portabilidade vs. Desempenho 
 Um desenvolvedor decide criar um jogo usando uma tecnologia que permite rodar o mesmo código no Windows, Android, iOS e Web.
 O conflito: Ao focar na Portabilidade (rodar em qualquer lugar), perde-se em Desempenho. O código não é otimizado especificamente para o hardware de cada aparelho, resultando em uma execução mais lenta do que se fosse feito um código nativo para cada plataforma.
