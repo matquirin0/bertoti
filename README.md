@@ -28,9 +28,9 @@ Um desenvolvedor decide criar um jogo usando uma tecnologia que permite rodar o 
 O conflito: Ao focar na Portabilidade (rodar em qualquer lugar), perde-se em Desempenho. O código não é otimizado especificamente para o hardware de cada aparelho, resultando em uma execução mais lenta do que se fosse feito um código nativo para cada plataforma.
 
 5) <br>
-int blech (int j) {
-  j = j - 1; //deveria ser j = j +1
-  j = j / 30 000;
+int blech (int j) { <br>
+  j = j - 1; //deveria ser j = j +1 <br>
+  j = j / 30 000; <br>
   return j;
 } <br>
 Considerando -32 768 até 32 767 <br>
