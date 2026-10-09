@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equipes</title>
+  <style>
+    :root { --fundo:#fff; --texto:#1a1a1a; --suave:#767676; --linha:#e4e4e4; --erro:#b3261e; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fundo:#161616; --texto:#ececec; --suave:#8f8f8f; --linha:#2c2c2c; --erro:#f2867f; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--fundo); color:var(--texto); font:16px/1.5 system-ui, sans-serif; }
+    main { max-width:640px; margin:0 auto; padding:3rem 1.25rem; }
+    h1 { font-size:1.5rem; font-weight:600; margin:0 0 1.5rem; }
+    form { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2rem; }
+    input { flex:1 1 140px; padding:.5rem .6rem; font:inherit; color:inherit; background:transparent;
+            border:1px solid var(--linha); border-radius:4px; }
+    input:focus-visible, button:focus-visible { outline:2px solid var(--texto); outline-offset:2px; }
+    button { padding:.5rem .9rem; font:inherit; color:var(--fundo); background:var(--texto);
+             border:1px solid var(--texto); border-radius:4px; cursor:pointer; }
+    button.link { padding:0; color:var(--suave); background:none; border:none; text-decoration:underline; }
+    button.link:hover { color:var(--texto); }
+    table { width:100%; border-collapse:collapse; }
+    th, td { text-align:left; padding:.6rem .25rem; border-bottom:1px solid var(--linha); }
+    th { font-weight:500; color:var(--suave); font-size:.875rem; }
+    .acoes { text-align:right; white-space:nowrap; }
+    .acoes button + button { margin-left:.75rem; }
+    #erro { color:var(--erro); }
+    #vazio { color:var(--suave); }
+    [hidden] { display:none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Equipes</h1>
+
+    <form id="form">
+      <input id="nome" placeholder="Nome" required />
+      <input id="cidade" placeholder="Cidade" required />
+      <input id="ano" type="number" placeholder="Ano de criação" required />
+      <button type="submit" id="salvar">Adicionar</button>
+      <button type="button" id="cancelar" class="link" hidden>Cancelar</button>
+    </form>
+
+    <p id="erro" role="alert" hidden></p>
+
+    <table id="tabela" hidden>
+      <thead><tr><th>Nome</th><th>Cidade</th><th>Ano</th><th></th></tr></thead>
+      <tbody id="corpo"></tbody>
+    </table>
+    <p id="vazio" hidden>Nenhuma equipe cadastrada. Preencha o formulário acima para adicionar a primeira.</p>
+  </main>
+
+  <script>
+    const API = '/equipes';
+    let editandoId = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function mostrarErro(msg) {
+      $('erro').textContent = msg;
+      $('erro').hidden = !msg;
+    }
+
+    async function carregar() {
+      try {
+        const res = await fetch(API);
+        if (!res.ok) throw new Error();
+        desenhar(await res.json());
+        mostrarErro('');
+      } catch {
+        mostrarErro('Não foi possível conectar à API. Confira se o back-end está rodando.');
+      }
+    }
+
+    function botao(texto, aoClicar) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'link';
+      b.textContent = texto;
+      b.addEventListener('click', aoClicar);
+      return b;
+    }
+
+    function desenhar(equipes) {
+      const corpo = $('corpo');
+      corpo.replaceChildren();
+      for (const e of equipes) {
+        const tr = document.createElement('tr');
+        for (const valor of [e.nome, e.cidade, e.anoDeCriacao]) {
+          const td = document.createElement('td');
+          td.textContent = valor;
+          tr.appendChild(td);
+        }
+        const acoes = document.createElement('td');
+        acoes.className = 'acoes';
+        acoes.append(botao('Editar', () => editar(e)), botao('Excluir', () => excluir(e.id)));
+        tr.appendChild(acoes);
+        corpo.appendChild(tr);
+      }
+      $('tabela').hidden = equipes.length === 0;
+      $('vazio').hidden = equipes.length !== 0;
+    }
+
+    async function salvar(evento) {
+      evento.preventDefault();
+      const corpo = {
+        nome: $('nome').value,
+        cidade: $('cidade').value,
+        anoDeCriacao: Number($('ano').value)
+      };
+      try {
+        const res = await fetch(editandoId ? `${API}/${editandoId}` : API, {
+          method: editandoId ? 'PUT' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(corpo)
+        });
+        if (!res.ok) throw new Error();
+        cancelar();
+        await carregar();
+      } catch {
+        mostrarErro('Não foi possível salvar a equipe.');
+      }
+    }
+
+    async function excluir(id) {
+      try {
+        const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error();
+        await carregar();
+      } catch {
+        mostrarErro('Não foi possível excluir a equipe.');
+      }
+    }
+
+    function editar(e) {
+      editandoId = e.id;
+      $('nome').value = e.nome;
+      $('cidade').value = e.cidade;
+      $('ano').value = e.anoDeCriacao;
+      $('salvar').textContent = 'Salvar alterações';
+      $('cancelar').hidden = false;
+      $('nome').focus();
+    }
+
+    function cancelar() {
+      editandoId = null;
+      $('form').reset();
+      $('salvar').textContent = 'Adicionar';
+      $('cancelar').hidden = true;
+    }
+
+    $('form').addEventListener('submit', salvar);
+    $('cancelar').addEventListener('click', cancelar);
+    carregar();
+  </script>
+</body>
+</html>
